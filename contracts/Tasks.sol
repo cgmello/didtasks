@@ -5,63 +5,57 @@ import "hardhat/console.sol";
 
 contract Tasks {
     /* the owner of the contract */
-    address owner;
+    address public owner;
 
-    /* list of DID URIs referencing some off-chain data */
-    string[] dids;
-
-    /* this is just for testing */    
+    /* DID documents */
     struct Task {
-      string title;
-      string description;
-      string status;
-      uint thours;
+        address caller;
+        string did;
+        string didDocument;
+        string[] uris;
     }
-    Task[] public taskList;
+
+    /* map DID to the Task document */
+    mapping(string => Task) public didToTask;
 
     /* we can create listeners for events in the client and use them in The Graph  */
-    event TaskCreated(string title, string description, string status, uint thours);
+    event NewUserCreated(string did, string didDocument);
+    event TaskCreated(string did, string uri, string title, string description, string status, uint thours);
 
     constructor() {
-        /* the creator becomes the owner */
         owner = msg.sender;
     }
 
-    function addDID(string memory _did) public onlyOwner {
-        /* append a new DID URI to the list */
-        dids.push(_did);
+    function hasTask(string memory _did) public view returns (bool) {
+        return compareStr(didToTask[_did].did, "");
     }
 
-    function addTask(
-        string memory _title,
-        string memory _description,
-        string memory _status,
-        uint _thours
-    ) public onlyOwner {
-        /* just for testing */
-        Task memory task = Task({
-            title: _title,
-            description: _description,
-            status: _status,
-            thours: _thours
-        });
-        taskList.push(task);
-
-        /* emit creation event */
-        emit TaskCreated(_title, _description, _status, _thours);        
+    function getDocument(string memory _did) public view returns (string memory) {        
+        return didToTask[_did].didDocument;
     }
 
-    function fetchAllDIDs() public view returns (string[] memory) {
-        return dids;
+    function getURIs(string memory _did) public view returns (string[] memory) {
+        return didToTask[_did].uris;
     }
 
-    function fetchAllTasks() public view returns (Task[] memory) {
-        return taskList;
+    function addTask(string memory _did, string memory _document) public {
+        Task memory task;
+        task.caller = msg.sender;
+        task.did = _did;
+        task.didDocument = _document;
+        didToTask[_did] = task;
+        emit NewUserCreated(_did, _document);
+    }    
+
+    function emitTaskCreated(string memory _did, string memory _uri, string memory _title, string memory _description, string memory _status, uint _thours) public { 
+        emit TaskCreated(_did, _uri, _title, _description, _status, _thours);
     }
 
-    modifier onlyOwner() {
-        /* only the owner can invoke the call */
-        require(msg.sender == owner);
-        _;
-    } 
+    function addURI(string memory _did, string memory _uri) public {
+        didToTask[_did].uris.push(_uri);
+    }
+
+    function compareStr(string memory _s1, string memory _s2) private pure returns (bool) {
+        return (keccak256(abi.encodePacked(_s1)) == keccak256(abi.encodePacked(_s2)));
+    }
 }

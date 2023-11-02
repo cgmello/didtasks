@@ -1,10 +1,9 @@
-import { CeramicClient } from '@ceramicnetwork/http-client'
-import { DID } from 'dids'
-import { getResolver } from 'key-did-resolver'
-import { getResolver as getResolverForPKH } from 'pkh-did-resolver'
-
+// import { CeramicClient } from '@ceramicnetwork/http-client'
+// import { DID } from 'dids'
+// import { getResolver } from 'key-did-resolver'
+import { getResolver } from 'pkh-did-resolver'
 import { Resolver } from 'did-resolver'
-import { getResolver as getResolverFor3ID } from '@ceramicnetwork/3id-did-resolver'
+// import { getResolver as getResolverFor3ID } from '@ceramicnetwork/3id-did-resolver'
 
 //const keydid = 'did:key:z6MktKq2yRPDsFTELNrVTsGMtV2aERSHhNMmoYoUc9VJRHwB';
 // const did = new DID({ resolver: getResolverForPKH() })
@@ -12,7 +11,7 @@ import { getResolver as getResolverFor3ID } from '@ceramicnetwork/3id-did-resolv
 // console.log(doc1.didDocument);
 
 const keydid = 'did:pkh:eip155:11155111:0x25a928dbf631e3de4487b6caadce9c81702418ba';
-const pkhResolver = getResolverForPKH()
+const pkhResolver = getResolver()
 const resolver = new Resolver(pkhResolver)
 const didResolutionResult = await resolver.resolve(keydid)
 console.log(didResolutionResult.didDocument)

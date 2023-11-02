@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/cgmello/Github/intuition/poc/didtasks/contracts/Tasks.sol": {
-      "lastModificationDate": 1698910443263,
-      "contentHash": "deedeb41b29d6167a9c29b7bd9676730",
+      "lastModificationDate": 1698960946394,
+      "contentHash": "2ab679ed01d49f999dd017c3e8e7698f",
       "sourceName": "contracts/Tasks.sol",
       "solcConfig": {
         "version": "0.8.4",

@@ -17,6 +17,11 @@ const contractAddress = "0x1E7400D16823eC7d3Fd16ea7393504A445359294"
 const endpoint = "https://ceramic-clay.3boxlabs.com"
 
 function App() {
+  const [loaded, setLoaded] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [hours, setHours] = useState("");
+
   const [mydid, setMyDID] = useState("-")
   const [did, setDID] = useState("")
   const [dids, setDIDs] = useState()
@@ -53,7 +58,7 @@ function App() {
     }`
   }
 
-  async function authenticate(ceramic, compose) {
+  async function authenticateCeramic(ceramic, compose) {
     const sessionStr = localStorage.getItem('did')
     
     let session
@@ -93,7 +98,7 @@ function App() {
   async function create() {
     const ceramic = new CeramicClient(endpoint)
     const compose = new ComposeClient({ ceramic, definition });
-    const session = await authenticate(ceramic, compose)
+    const session = await authenticateCeramic(ceramic, compose)
 
     console.log('Auth: ', session.did)
 
@@ -106,7 +111,7 @@ function App() {
     console.log(doc)
   }
 
-  async function showMyDID() {
+  async function authenticateMetamask() {
     const ethProvider = window.ethereum;
     const addresses = await requestAccount();
     const accountId = await getAccountId(ethProvider, addresses[0])
@@ -145,10 +150,6 @@ function App() {
     }
   }
 
-  const handleInput = (event) => {
-    setDID(event.target.value)
-  }
-
   // request access to the user's MetaMask account
   async function requestAccount() {
     return await window.ethereum.request({
@@ -156,36 +157,53 @@ function App() {
     });
   }
 
+  const handleTitle = (event) => { setTitle(event.target.value) }
+  const handleDescription = (event) => { setDescription(event.target.value) }
+  const handleHours = (event) => { setHours(event.target.value) }
+
+  async function storeTask() {
+  }
+
+  const renderForm = (
+    <><><Form>
+      <InputGroup size="lg">
+        <InputGroup.Text>Title</InputGroup.Text>
+        <FormControl
+          value={title}
+          onChange={handleTitle}
+          placeholder="Title"
+          aria-label="Large"
+          aria-describedby="inputGroup-sizing-sm" />
+      </InputGroup>
+      <InputGroup size="lg">
+        <InputGroup.Text>Description</InputGroup.Text>
+        <FormControl
+          value={description}
+          onChange={handleDescription}
+          placeholder="Title"
+          aria-label="Large"
+          aria-describedby="inputGroup-sizing-sm" />
+      </InputGroup>
+      <InputGroup size="lg">
+        <InputGroup.Text>Estimated hours</InputGroup.Text>
+        <FormControl
+          value={hours}
+          onChange={handleHours}
+          placeholder="Title"
+          aria-label="Large"
+          aria-describedby="inputGroup-sizing-sm" />
+      </InputGroup>
+    </Form>
+    <br />
+    </><Button onClick={storeTask} variant="success">Store</Button></>
+  );
+
   return (
     <Container>
       <br/><br/>
-      My DID: {mydid!=="-" && <b>{mydid}</b>} {mydid==="-" && <Button onClick={showMyDID} variant="warning">Show</Button>}
+      { !loaded && <Button onClick={authenticateMetamask} variant="warning">Authenticate</Button>}
+      { loaded && <>DID: <b>{mydid}</b><br/><br/> {renderForm}</>  }
       <br/><br/>
-      <Form>
-        <InputGroup size="lg">
-          <InputGroup.Text>DID URI</InputGroup.Text>
-          <FormControl 
-            value={did}
-            onChange={handleInput}
-            placeholder="your DID URI here"
-            aria-label="Large" 
-            aria-describedby="inputGroup-sizing-sm" 
-          />
-        </InputGroup>
-      </Form>
-      <br/>
-      <Button onClick={getDIDs} variant="success">Get list</Button>
-      &nbsp;&nbsp;&nbsp; or &nbsp;&nbsp;&nbsp;
-      <Button onClick={addDID}>Add DID URI</Button>
-
-      <br/><br/>
-      <hr/>
-      {dids}
-      <br/><br/>
-      <hr/>
-      <Button onClick={query}>List</Button>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <Button onClick={create}>Create</Button>
     </Container>
   );
 }
