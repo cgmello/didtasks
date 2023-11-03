@@ -17,7 +17,7 @@ import Tasks from './artifacts/contracts/Tasks.sol/Tasks.json'
 * Update with the contract address logged out to the CLI when it was deployed 
 *
 *******************************************************************************/
-const contractAddress = "0x461E90b936c919FFB0b129d8d304BA0F1FE2afA2"
+const contractAddress = "0x61877Ff89bE94A05C9128d3791aabE5ac99AA917"
 
 function App() {
 
@@ -160,8 +160,11 @@ function App() {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner()
       const contract = new ethers.Contract(contractAddress, Tasks.abi, signer)
-      const txn = await contract.emitTaskCreated(pkhDID, uri, title, description, "NOT_STARTED", hours)
-      console.log("Event task created emitted: ", txn)
+
+      const transaction = await contract.emitTaskCreated(pkhDID, uri, title, description, "NOT_STARTED", hours)
+      console.log("Pending transaction for emit event: ", transaction)
+      await transaction.wait()
+      console.log("Event task created emitted")    
     }
   }
 

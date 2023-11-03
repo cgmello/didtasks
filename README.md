@@ -1,12 +1,16 @@
-## The POC
+# DID Tasks
+
+## Motivation
 
 **Stretch goal**: develop a very quick POC that shows how a user might go through the flow of 1) creating the suggested-required off-chain data, 2) grab the URI of that off-chain data and post it on-chain, and 3) have a singular DB that indexes and aggregates the important information from both the on-chain and off-chain data.
 
 **Stretch goal 2**: Index information from another, centralized DB into the singular DB, and provide an endpoint that allows users to run very basic queries on the aggregated data set.
 
-## TL;TR
+## Summary
 
 This POC mais goal is to allow an user to create a DID (Decentralized Identifier) to save off-chain data and to refer it on-chain
+
+## How it works
 
 ## Technologies
 
@@ -17,7 +21,7 @@ This POC mais goal is to allow an user to create a DID (Decentralized Identifier
 - The Graph
 - Solidity smart contract
 
-## Setup a local Ceramic network and ComposeDB
+## Requirements
 
 Install dependencies and run Wheel as described in [here](https://composedb.js.org/docs/0.5.x/set-up-your-environment). After running the wheel you have the CLI for ceramic and composeDB, and a new */ceramic-app* created:
 
@@ -90,7 +94,7 @@ Start a ComposeDB Yoda GraphiQL server at https://localhost:5005 using the priva
 $ composedb graphql:server --ceramic-url=http://localhost:7007 --graphiql runtime-tasks-composite.json --did-private-key=<private-key> --port=5005
 ```
 
-#### Configuring for Sepolia testnet
+### Configuring for Sepolia testnet
 
 1. Change Metamask network to Sepolia testnet
 2. Give you some credits using a Sepolia [faucet](https://sepoliafaucet.com/)
@@ -130,7 +134,7 @@ Update the contract address to the */src/App.js* file.
 
 Check the contract at Etherscan for [Sepolia Testnet](https://sepolia.etherscan.io)
 
-## Running the app
+## Usage
 
 ```
 $ npm start

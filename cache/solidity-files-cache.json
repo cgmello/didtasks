@@ -74,8 +74,8 @@
       ]
     },
     "/Users/cgmello/Github/intuition/didtasks/contracts/Tasks.sol": {
-      "lastModificationDate": 1698970012275,
-      "contentHash": "a15c134207e84c40921a4fe128497f21",
+      "lastModificationDate": 1698989983211,
+      "contentHash": "d59d803c57c984304108f282bfd29f63",
       "sourceName": "contracts/Tasks.sol",
       "solcConfig": {
         "version": "0.8.4",
