@@ -21,6 +21,7 @@ contract Tasks {
     /* we can create listeners for events in the client and use them in The Graph  */
     event NewUserCreated(string did, string didDocument);
     event TaskCreated(string did, string uri, string title, string description, string status, uint thours);
+    event DocumentUpdated(string did, string didDocument);
 
     constructor() {
         owner = msg.sender;
@@ -38,6 +39,11 @@ contract Tasks {
         return didToTask[_did].uris;
     }
 
+    function setDocument(string memory _did, string memory _document) public {
+        didToTask[_did].didDocument = _document;
+        emit DocumentUpdated(_did, _document);
+    }
+
     function addTask(string memory _did, string memory _document) public {
         Task memory task;
         task.caller = msg.sender;
@@ -47,12 +53,12 @@ contract Tasks {
         emit NewUserCreated(_did, _document);
     }    
 
-    function emitTaskCreated(string memory _did, string memory _uri, string memory _title, string memory _description, string memory _status, uint _thours) public { 
-        emit TaskCreated(_did, _uri, _title, _description, _status, _thours);
-    }
-
     function addURI(string memory _did, string memory _uri) public {
         didToTask[_did].uris.push(_uri);
+    }
+
+    function emitTaskCreated(string memory _did, string memory _uri, string memory _title, string memory _description, string memory _status, uint _thours) public { 
+        emit TaskCreated(_did, _uri, _title, _description, _status, _thours);
     }
 
     function compareStr(string memory _s1, string memory _s2) private pure returns (bool) {
