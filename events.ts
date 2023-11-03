@@ -30,11 +30,11 @@ function insert_singulardb(table: string, item: any) {
       Item: item,
     };
     ddb.putItem(params, function(err: any, data: any) {
-      if (err) {
-        console.log("Error", err);
-      } else {
-        console.log("Success", data);
-      }
+        if (err) {
+            console.log("Error", err);
+        } else {
+            console.log("Success", data);
+        }
     });    
 }
 
@@ -58,7 +58,7 @@ async function get_on_chain_events() {
 
         // Get off-chain from some centralized db
         const extra = get_off_chain_centralizeddb_mock(did);
-        console.log('Extra info for the DID: ', JSON.stringify(extra, null, 4));
+        console.log('Extra info for the DID: ', .stringify(extra, null, 4));
 
         // Aggregated item
         const item = {
