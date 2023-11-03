@@ -139,3 +139,15 @@ Check the contract at Etherscan for [Sepolia Testnet](https://sepolia.etherscan.
 ```
 $ npm start
 ```
+
+Event listener
+
+```
+$ ts-node events.ts
+```
+
+REST HTTP API
+
+```
+$ ts-node api.ts
+```
